@@ -27,6 +27,7 @@ model Product {
   currency          String
   unit              Float
   description       String?
+  quantity          Float?       @default(0)
   not_discounts     Boolean?
   not_bonus_program Boolean?
 }

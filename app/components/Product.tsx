@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { ProductType } from '@/types/ProductType';
+import AddCart from './AddCart';
 
 export default function Product({
+  id,
   name,
   image,
   unit_amount,
   unit,
-  id,
-  description,
   currency,
 }: ProductType) {
   return (
@@ -32,9 +32,14 @@ export default function Product({
             </span>
           </p>
         </div>
-        <button className="py-3 px-2 bg-teal-500 rounded-md text-white">
-          Заказать
-        </button>
+        <AddCart
+          name={name}
+          id={id}
+          image={image as string}
+          unit_amount={unit_amount}
+          unit={unit}
+          currency={currency}
+        />
       </div>
     </div>
   );
