@@ -3,8 +3,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Nav from './components/Nav';
 import Hydrate from './components/Hydrate';
+import { Roboto } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
+const roboto = Roboto({ weight: ['400', '700'], subsets: ['cyrillic'] });
 
 export const metadata: Metadata = {
   title: 'Alex & Coffee',
@@ -18,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} mx-48`}>
+      <body className={`${roboto.className} mx-48 mb-12`}>
         <Hydrate>
           <Nav />
           {children}

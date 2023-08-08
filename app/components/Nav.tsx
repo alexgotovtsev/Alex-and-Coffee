@@ -4,6 +4,7 @@ import { AiFillShopping } from 'react-icons/ai';
 import { useCartStore } from '@/store';
 import Cart from './Cart';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Nav() {
   const cartStore = useCartStore();
@@ -19,12 +20,18 @@ export default function Nav() {
           onClick={() => cartStore.toggleCart()}
         >
           <AiFillShopping />
-          <span className="bg-teal-500 h-7 w-7 text-lg text-white rounded-full absolute left-5 bottom-4 flex items-center justify-center  ">
-            {cartStore.cart.length}
-          </span>
+          {cartStore.cart.length > 0 && (
+            <motion.span
+              className="bg-teal-500 h-7 w-7 text-lg text-white rounded-full absolute left-5 bottom-4 flex items-center justify-center"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            >
+              {cartStore.cart.length}
+            </motion.span>
+          )}
         </li>
       </ul>
-      {cartStore.isOpen && <Cart />}
+      <AnimatePresence>{cartStore.isOpen && <Cart />}</AnimatePresence>
     </nav>
   );
 }

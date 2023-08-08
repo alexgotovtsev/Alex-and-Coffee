@@ -4,13 +4,12 @@ import Product from './components/Product';
 const getProducts = async () => {
   const client = new PrismaClient();
   await client.$connect();
-  const data = await client.product.findMany({});
+  const data = await client.menu.findMany({});
   return data;
 };
 
 export default async function Home() {
   const products = await getProducts();
-  console.log(products);
 
   return (
     <main className="grid grid-cols-fluid gap-12">

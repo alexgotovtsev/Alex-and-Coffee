@@ -7,7 +7,7 @@ const nextConfig = {
   //   ignoreBuildErrors: true,
   // },
   images: {
-    domains: ['casta.md', 'e1.edimdoma.ru'],
+    domains: ['globalassets.starbucks.com', 'www.digitalassets.starbucks.eu'],
   },
 };
 
