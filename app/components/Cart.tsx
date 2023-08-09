@@ -10,6 +10,7 @@ import {
 
 import basket from '@/public/basket.png';
 import { motion, AnimatePresence } from 'framer-motion';
+import Checkout from './Checkout';
 
 export default function Cart() {
   const cartStore = useCartStore();
@@ -18,7 +19,6 @@ export default function Cart() {
     (acc, item) => acc + item.quantity! * item.unit_amount!,
     0
   );
-  console.log(totalPrice);
 
   return (
     <motion.div
@@ -34,7 +34,7 @@ export default function Cart() {
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="text-4xl text-teal-500 border-2 rounded-md border-teal-400 opacity-75"
+          className="text-4xl text-teal-500"
           onClick={() => cartStore.toggleCart()}
         >
           <IoArrowForwardOutline />
@@ -46,78 +46,91 @@ export default function Cart() {
           </h1>
         )}
 
-        {cartStore.cart.map((item) => (
-          <motion.div
-            className="flex p-4 gap-3 bg-gray-100 mt-2 rounded-md"
-            key={item.id}
-            layout
-          >
-            <Image
-              className="rounded-md h-24 w-24 object-cover"
-              src={item.image}
-              alt={item.name}
-              width={150}
-              height={150}
-              priority={true}
-            />
-            <motion.div layout>
-              <h2>{item.name}</h2>
-              <div className="flex gap-2">
-                <h2>Количество: {item.quantity}</h2>
-                <button
-                  onClick={() =>
-                    cartStore.removeProduct({
-                      id: item.id,
-                      name: item.name,
-                      image: item.image,
-                      unit_amount: item.unit_amount,
-                      quantity: item.quantity,
-                      unit: item.unit,
-                      currency: item.currency,
-                    })
-                  }
-                >
-                  <IoRemoveCircle className="text-lg" />
-                </button>
-                <button
-                  onClick={() =>
-                    cartStore.addProduct({
-                      id: item.id,
-                      name: item.name,
-                      image: item.image,
-                      unit_amount: item.unit_amount,
-                      quantity: item.quantity,
-                      unit: item.unit,
-                      currency: item.currency,
-                    })
-                  }
-                >
-                  <IoAddCircle className="text-lg" />
-                </button>
-              </div>
+        {/* список заказов */}
+        {cartStore.onCheckout === 'cart' && (
+          <>
+            {cartStore.cart.map((item) => (
+              <motion.div
+                className="flex p-4 gap-3 bg-gray-100 mt-2 rounded-md"
+                key={item.id}
+                layout
+              >
+                <Image
+                  className="rounded-md h-24 w-24 object-cover"
+                  src={item.image!}
+                  alt={item.name}
+                  width={150}
+                  height={150}
+                  priority={true}
+                />
+                <motion.div layout>
+                  <h2>{item.name}</h2>
+                  <div className="flex gap-2">
+                    <h2>Количество: {item.quantity}</h2>
+                    <button
+                      onClick={() =>
+                        cartStore.removeProduct({
+                          id: item.id,
+                          name: item.name,
+                          type: item.type,
+                          image: item.image,
+                          unit_amount: item.unit_amount,
+                          quantity: item.quantity,
+                          unit: item.unit,
+                          currency: item.currency,
+                        })
+                      }
+                    >
+                      <IoRemoveCircle className="text-lg" />
+                    </button>
+                    <button
+                      onClick={() =>
+                        cartStore.addProduct({
+                          id: item.id,
+                          name: item.name,
+                          image: item.image,
+                          type: item.type,
+                          unit_amount: item.unit_amount,
+                          quantity: item.quantity,
+                          unit: item.unit,
+                          currency: item.currency,
+                        })
+                      }
+                    >
+                      <IoAddCircle className="text-lg" />
+                    </button>
+                  </div>
 
-              <p>
-                Цена: {item.unit_amount}{' '}
-                <span className="text-sm">{item.currency}</span>
-              </p>
-            </motion.div>
-          </motion.div>
-        ))}
+                  <p>
+                    Цена: {item.unit_amount}{' '}
+                    <span className="text-sm">{item.currency}</span>
+                  </p>
+                </motion.div>
+              </motion.div>
+            ))}
 
-        {/* hidden btn  */}
-        {cartStore.cart.length > 0 && (
-          <motion.div layout>
-            <h1 className="text-xl font-medium mt-10">
-              Сумма Заказа: {totalPrice}{' '}
-              <span className="text-lg">{cartStore.cart[0].currency}</span>
-            </h1>
-            <button className="py-2 mt-4 bg-teal-500 w-full rounded-md text-white">
-              Сделать заказ
-            </button>
-          </motion.div>
+            {/* скрываем кнопку  */}
+            {cartStore.cart.length > 0 && (
+              <motion.div layout>
+                <h1 className="text-xl font-medium mt-10">
+                  Сумма Заказа: {totalPrice}{' '}
+                  <span className="text-lg">{cartStore.cart[0].currency}</span>
+                </h1>
+                <button
+                  className="py-2 mt-4 bg-teal-500 w-full rounded-md text-white"
+                  onClick={() => cartStore.setCheckout('checkout')}
+                >
+                  Сделать заказ
+                </button>
+              </motion.div>
+            )}
+          </>
         )}
 
-        {/* show empty basket */}
+        {/* onCheckout */}
+        {cartStore.onCheckout === 'checkout' && <Checkout />}
+
+        {/* пустая корзина */}
         {!cartStore.cart.length && (
           <AnimatePresence>
             <motion.div

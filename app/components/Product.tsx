@@ -4,6 +4,7 @@ import AddCart from './AddCart';
 
 export default function Product({
   id,
+  type,
   name,
   image,
   unit_amount,
@@ -33,8 +34,9 @@ export default function Product({
           </p>
         </div>
         <AddCart
-          name={name}
           id={id}
+          type={type}
+          name={name}
           image={image as string}
           unit_amount={unit_amount}
           unit={unit}

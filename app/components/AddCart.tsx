@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 export default function AddCart({
   id,
+  type,
   name,
   image,
   unit_amount,
@@ -23,6 +24,7 @@ export default function AddCart({
         onClick={() =>
           cartStore.addProduct({
             id,
+            type,
             name,
             image,
             unit_amount,
