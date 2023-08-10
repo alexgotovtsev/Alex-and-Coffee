@@ -47,6 +47,8 @@ export default async function handler(
       include: { products: true },
     });
 
+    // console.log(existing_order, '💥💥');
+
     if (!existing_order) {
       res.status(400).json({ message: 'Invalid Payment Intent' });
     }

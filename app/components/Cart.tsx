@@ -2,15 +2,12 @@
 
 import Image from 'next/image';
 import { useCartStore } from '@/store';
-import {
-  IoAddCircle,
-  IoRemoveCircle,
-  IoArrowForwardOutline,
-} from 'react-icons/io5';
+import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
 
 import basket from '@/public/basket.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import Checkout from './Checkout';
+import OrderConfirmed from './OrderConfirmed';
 
 export default function Cart() {
   const cartStore = useCartStore();
@@ -33,22 +30,29 @@ export default function Cart() {
         className="bg-white absolute top-0 right-0 w-1/4 h-screen px-12 py-4 overflow-y-scroll text-gray-600"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          className="text-4xl text-teal-500"
-          onClick={() => cartStore.toggleCart()}
-        >
-          <IoArrowForwardOutline />
-        </button>
-
-        {cartStore.cart.length > 0 && (
-          <h1 className="text-xl flex justify-center font-bold mb-9">
-            Ваш лист заказа 📃
-          </h1>
+        {cartStore.onCheckout === 'cart' && (
+          <button onClick={() => cartStore.toggleCart()} className="mb-12">
+            Назад в магазин ☕
+          </button>
+        )}
+        {cartStore.onCheckout === 'checkout' && (
+          <button
+            onClick={() => cartStore.setCheckout('cart')}
+            className="mb-12"
+          >
+            Проверить корзину 🛒
+          </button>
         )}
 
         {/* список заказов */}
         {cartStore.onCheckout === 'cart' && (
           <>
+            {cartStore.cart.length > 0 && (
+              <h1 className="text-xl flex justify-center font-bold mb-9">
+                Ваш лист заказа 📃
+              </h1>
+            )}
+
             {cartStore.cart.map((item) => (
               <motion.div
                 className="flex p-4 gap-3 bg-gray-100 mt-2 rounded-md"
@@ -112,10 +116,6 @@ export default function Cart() {
             {/* скрываем кнопку  */}
             {cartStore.cart.length > 0 && (
               <motion.div layout>
-                <h1 className="text-xl font-medium mt-10">
-                  Сумма Заказа: {totalPrice}{' '}
-                  <span className="text-lg">{cartStore.cart[0].currency}</span>
-                </h1>
                 <button
                   className="py-2 mt-4 bg-teal-500 w-full rounded-md text-white"
                   onClick={() => cartStore.setCheckout('checkout')}
@@ -128,10 +128,13 @@ export default function Cart() {
         )}
 
         {/* onCheckout */}
-        {cartStore.onCheckout === 'checkout' && <Checkout />}
+        {cartStore.onCheckout === 'checkout' && <Checkout total={totalPrice} />}
+
+        {/* success */}
+        {cartStore.onCheckout === 'success' && <OrderConfirmed />}
 
         {/* пустая корзина */}
-        {!cartStore.cart.length && (
+        {cartStore.onCheckout === 'cart' && !cartStore.cart.length && (
           <AnimatePresence>
             <motion.div
               className="flex flex-col font-medium text-2xl justify-center gap-12 items-center pt-48 opacity-75"

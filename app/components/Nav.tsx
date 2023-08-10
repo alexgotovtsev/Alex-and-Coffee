@@ -30,6 +30,14 @@ export default function Nav() {
             </motion.span>
           )}
         </li>
+        {/* <li>
+          <button
+            className="py-2 mt-4 bg-teal-500 w-full rounded-md text-white"
+            onClick={() => cartStore.setCheckout('checkout')}
+          >
+            Сделать заказ
+          </button>
+        </li> */}
       </ul>
       <AnimatePresence>{cartStore.isOpen && <Cart />}</AnimatePresence>
     </nav>
