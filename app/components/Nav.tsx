@@ -11,8 +11,21 @@ export default function Nav() {
 
   return (
     <nav className="flex justify-between items-center p-6">
-      <Link href={'/'}>
-        <h1 className="text-xl font-bold">Alex & Cofee</h1>
+      <button
+        className="text-xl font-bold"
+        onClick={() => {
+          cartStore.clearCart();
+          cartStore.setPaymentIntent('');
+        }}
+      >
+        <Link href={'/'}>Alex & Cofee</Link>
+      </button>
+
+      <Link href={'api/delete-poroduct'}>
+        <button className="bg-red-500">Уд прод</button>
+      </Link>
+      <Link href={'api/delete-orders'}>
+        <button className="bg-red-500">Уд заказ</button>
       </Link>
       <ul className="flex items-center gap-12">
         <li
@@ -30,14 +43,6 @@ export default function Nav() {
             </motion.span>
           )}
         </li>
-        {/* <li>
-          <button
-            className="py-2 mt-4 bg-teal-500 w-full rounded-md text-white"
-            onClick={() => cartStore.setCheckout('checkout')}
-          >
-            Сделать заказ
-          </button>
-        </li> */}
       </ul>
       <AnimatePresence>{cartStore.isOpen && <Cart />}</AnimatePresence>
     </nav>

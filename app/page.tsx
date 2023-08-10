@@ -1,21 +1,10 @@
-import { PrismaClient } from '@prisma/client';
-import Product from './components/Product';
-
-const getProducts = async () => {
-  const client = new PrismaClient();
-  await client.$connect();
-  const data = await client.menu.findMany({});
-  return data;
-};
+import Btn from './components/Btn';
 
 export default async function Home() {
-  const products = await getProducts();
-
   return (
-    <main className="grid grid-cols-fluid gap-12">
-      {products.map((product) => (
-        <Product {...product} key={product.id} />
-      ))}
+    <main className="flex flex-col items-center justify-center h-screen gap-12">
+      <h1 className="text-2xl font-bold">Alex & Coffee</h1>
+      <Btn />
     </main>
   );
 }

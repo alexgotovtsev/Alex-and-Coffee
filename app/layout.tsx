@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import Nav from './components/Nav';
+
 import Hydrate from './components/Hydrate';
 import { Roboto } from 'next/font/google';
 
@@ -18,11 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} mx-48 mb-12`}>
-        <Hydrate>
-          <Nav />
-          {children}
-        </Hydrate>
+      <body className={`${roboto.className} mx-48 mb-12 bg-gray-300`}>
+        <Hydrate>{children}</Hydrate>
       </body>
     </html>
   );

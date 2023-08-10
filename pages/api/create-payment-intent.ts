@@ -41,13 +41,12 @@ export default async function handler(
   // если палатежное намерение существует то обновляем заказ
   if (payment_intent_id) {
     // обновляем заказ
-
     const existing_order = await prisma.order.findFirst({
       where: { paymentIntentId: payment_intent_id },
       include: { products: true },
     });
 
-    // console.log(existing_order, '💥💥');
+    console.log(existing_order, '💥💥');
 
     if (!existing_order) {
       res.status(400).json({ message: 'Invalid Payment Intent' });
@@ -70,6 +69,7 @@ export default async function handler(
         },
       },
     });
+    console.log('🔴', updated_order);
 
     res.status(200).json({ paymentIntent: payment_intent_id });
     return;
@@ -80,6 +80,7 @@ export default async function handler(
     const newOrder = await prisma.order.create({
       data: orderData,
     });
+    console.log('✅', newOrder);
     res.status(200).json({ paymentIntent });
     return;
   }

@@ -31,20 +31,20 @@ export default function Checkout({ total }) {
     }
   };
 
-  useEffect(() => {
-    fetch('/api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        items: cartStore.cart,
-        payment_intent_id: cartStore.paymentIntent,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        cartStore.setPaymentIntent(data.paymentIntent);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/create-payment-intent', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({
+  //       items: cartStore.cart,
+  //       payment_intent_id: cartStore.paymentIntent,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       cartStore.setPaymentIntent(data.paymentIntent);
+  //     });
+  // }, []);
 
   return (
     <div className="flex justify-center flex-col gap-4">
