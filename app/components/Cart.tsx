@@ -1,13 +1,12 @@
 'use client';
 
+import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
 import Image from 'next/image';
 import { useCartStore } from '@/store';
-import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
-
+import Link from 'next/link';
 import basket from '@/public/basket.png';
 import { motion, AnimatePresence } from 'framer-motion';
-import Checkout from './Checkout';
-import OrderConfirmed from './OrderConfirmed';
+import Success from './Success';
 
 export default function Cart() {
   const cartStore = useCartStore();
@@ -16,6 +15,23 @@ export default function Cart() {
     (acc, item) => acc + item.quantity! * item.unit_amount!,
     0
   );
+
+  const successOrder = async () => {
+    cartStore.setCheckout('success');
+    const response = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: cartStore.cart,
+        status: 'success',
+        payment_intent_id: cartStore.paymentIntent,
+      }),
+    });
+    const data = response.json();
+
+    cartStore.clearCart();
+    console.log(`Успешный заказ: ${data}`);
+  };
 
   return (
     <motion.div
@@ -115,23 +131,35 @@ export default function Cart() {
 
             {/* скрываем кнопку  */}
             {cartStore.cart.length > 0 && (
-              <motion.div layout>
-                <button
-                  className="py-2 mt-4 bg-teal-500 w-full rounded-md text-white"
-                  onClick={() => cartStore.setCheckout('checkout')}
-                >
-                  Сделать заказ
-                </button>
+              <motion.div layout className="mt-4">
+                <h2 className="font-bold">
+                  Общая сумма заказа: {totalPrice} Руб
+                </h2>
+
+                <div className="flex flex-col gap-4 mt-4">
+                  <button
+                    className="py-2  bg-teal-500 w-full rounded-md text-white"
+                    onClick={() => successOrder()}
+                  >
+                    Сделать заказ
+                  </button>
+
+                  {/* <Link href={'/'}>
+                    <button
+                      className="py-2  bg-red-500 w-full rounded-md text-white"
+                      onClick={() => lastOrder()}
+                    >
+                      Отменить заказ
+                    </button>
+                  </Link>  */}
+                </div>
               </motion.div>
             )}
           </>
         )}
 
-        {/* onCheckout */}
-        {cartStore.onCheckout === 'checkout' && <Checkout total={totalPrice} />}
-
         {/* success */}
-        {cartStore.onCheckout === 'success' && <OrderConfirmed />}
+        {cartStore.onCheckout === 'success' && <Success />}
 
         {/* пустая корзина */}
         {cartStore.onCheckout === 'cart' && !cartStore.cart.length && (

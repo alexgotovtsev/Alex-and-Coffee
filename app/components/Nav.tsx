@@ -9,17 +9,42 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Nav() {
   const cartStore = useCartStore();
 
+  const lastOrder = async () => {
+    const response = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: cartStore.cart,
+        status: 'lost',
+        payment_intent_id: cartStore.paymentIntent,
+      }),
+    });
+    const data = response.json();
+
+    cartStore.clearCart();
+    console.log(`Заказ отменен: ${data}`);
+  };
+
   return (
     <nav className="flex justify-between items-center p-6">
       <button
         className="text-xl font-bold"
-        onClick={() => {
-          cartStore.clearCart();
-          cartStore.setPaymentIntent('');
-        }}
+        // onClick={() => {
+        //   cartStore.clearCart();
+        //   cartStore.setPaymentIntent('');
+        // }}
       >
-        <Link href={'/'}>Alex & Cofee</Link>
+        Alex & Cofee
       </button>
+
+      <Link href={'/'}>
+        <button
+          className="py-2  bg-red-500 w-full rounded-md text-white"
+          onClick={() => lastOrder()}
+        >
+          Отменить заказ
+        </button>
+      </Link>
 
       <Link href={'api/delete-poroduct'}>
         <button className="bg-red-500">Уд прод</button>
