@@ -25,6 +25,7 @@
     "ts-node": "^10.9.1",
     "typescript": "5.1.6",
     "uuid": "^9.0.0",
+    "viber-bot": "^1.0.18",
     "zustand": "^4.3.3"
   },
   "devDependencies": {

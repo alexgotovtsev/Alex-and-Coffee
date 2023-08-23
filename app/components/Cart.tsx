@@ -24,13 +24,30 @@ export default function Cart() {
       body: JSON.stringify({
         items: cartStore.cart,
         status: 'success',
-        payment_intent_id: cartStore.paymentIntent,
+        // payment_intent_id: cartStore.paymentIntent,
       }),
     });
     const data = response.json();
 
     cartStore.clearCart();
     console.log(`Успешный заказ: ${data}`);
+  };
+
+  const lastOrder = async () => {
+    cartStore.toggleCart();
+    const response = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: cartStore.cart,
+        status: 'lost',
+        // payment_intent_id: cartStore.paymentIntent,
+      }),
+    });
+    const data = response.json();
+
+    cartStore.clearCart();
+    console.log(`Заказ отменен: ${data}`);
   };
 
   return (
@@ -144,14 +161,14 @@ export default function Cart() {
                     Сделать заказ
                   </button>
 
-                  {/* <Link href={'/'}>
+                  <Link href={'/'}>
                     <button
                       className="py-2  bg-red-500 w-full rounded-md text-white"
                       onClick={() => lastOrder()}
                     >
                       Отменить заказ
                     </button>
-                  </Link>  */}
+                  </Link>
                 </div>
               </motion.div>
             )}

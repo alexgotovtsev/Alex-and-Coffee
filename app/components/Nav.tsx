@@ -1,50 +1,40 @@
 'use client';
 
 import { AiFillShopping } from 'react-icons/ai';
-import { useCartStore } from '@/store';
+import { useCartStore, useMenuStore } from '@/store';
 import Cart from './Cart';
+// import Categories from './Сategories';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Nav() {
   const cartStore = useCartStore();
-
-  const lastOrder = async () => {
-    const response = await fetch('/api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        items: cartStore.cart,
-        status: 'lost',
-        payment_intent_id: cartStore.paymentIntent,
-      }),
-    });
-    const data = response.json();
-
-    cartStore.clearCart();
-    console.log(`Заказ отменен: ${data}`);
-  };
+  // const menuStore = useMenuStore();
 
   return (
-    <nav className="flex justify-between items-center p-6">
-      <button
-        className="text-xl font-bold"
-        // onClick={() => {
-        //   cartStore.clearCart();
-        //   cartStore.setPaymentIntent('');
-        // }}
-      >
-        Alex & Cofee
-      </button>
-
+    <nav className="flex justify-between items-center p-6 text-gray-600">
+      {/* <AnimatePresence>
+        {menuStore.categories && <Categories />}
+      </AnimatePresence> */}
       <Link href={'/'}>
+        <button
+          className="text-3xl font-bold"
+          // onClick={() => {
+          //   menuStore.toggleCategories();
+          // }}
+        >
+          Alex & Coffee
+        </button>
+      </Link>
+
+      {/* <Link href={'/'}>
         <button
           className="py-2  bg-red-500 w-full rounded-md text-white"
           onClick={() => lastOrder()}
         >
           Отменить заказ
         </button>
-      </Link>
+      </Link> */}
 
       <Link href={'api/delete-poroduct'}>
         <button className="bg-red-500">Уд прод</button>
