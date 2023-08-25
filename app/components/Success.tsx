@@ -10,7 +10,6 @@ export default function OrderConfirmed() {
   const cartStore = useCartStore();
 
   useEffect(() => {
-    // cartStore.setPaymentIntent('');
     cartStore.clearCart();
   }, []);
 

@@ -7,7 +7,11 @@ const nextConfig = {
   //   ignoreBuildErrors: true,
   // },
   images: {
-    domains: ['globalassets.starbucks.com', 'www.digitalassets.starbucks.eu'],
+    domains: [
+      'globalassets.starbucks.com',
+      'www.digitalassets.starbucks.eu',
+      'lh3.googleusercontent.com',
+    ],
   },
 };
 

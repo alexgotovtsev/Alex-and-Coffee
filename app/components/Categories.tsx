@@ -7,7 +7,7 @@ export default function Categories() {
 
   let queryParams: any;
 
-  function handlerClick(checkbox) {
+  function handlerClick(checkbox: any) {
     if (typeof window !== 'undefined') {
       queryParams = new URLSearchParams(window.location.search);
     }
@@ -15,7 +15,8 @@ export default function Categories() {
     const checkboxes = document.getElementsByName(checkbox.name);
 
     checkboxes.forEach((item) => {
-      if (item !== checkbox) item.checked = false;
+      const inputItem = item as HTMLInputElement;
+      if (inputItem !== checkbox) inputItem.checked = false;
     });
 
     if (checkbox.checked === false) {
@@ -33,7 +34,7 @@ export default function Categories() {
     router.push(path);
   }
 
-  function checkHandler(checkBoxType, checkBoxValue) {
+  function checkHandler(checkBoxType: any, checkBoxValue: any) {
     if (typeof window !== 'undefined') {
       queryParams = new URLSearchParams(window.location.search);
 

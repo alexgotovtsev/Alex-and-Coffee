@@ -1,6 +1,5 @@
 import { AddCartType } from '@/types/AddCartType';
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -19,16 +18,13 @@ export default async function handler(
   const { items, status } = req.body;
 
   if (status === 'lost') {
-    // const paymentIntent = uuidv4();
-
     const orderData = {
       // user
       amount: calculateOrderAmount(items),
       currency: 'Руб',
       status: 'Потерянный',
-      // paymentIntentId: paymentIntent,
       products: {
-        create: items.map((item) => ({
+        create: items.map((item: any) => ({
           name: item.name,
           type: item.type,
           unit: item.unit,
@@ -48,16 +44,13 @@ export default async function handler(
   }
 
   if (status === 'success') {
-    // const paymentIntent = uuidv4();
-
     const orderData = {
       // user
       amount: calculateOrderAmount(items),
       currency: 'Руб',
       status: 'Уcпешный',
-      // paymentIntentId: paymentIntent,
       products: {
-        create: items.map((item) => ({
+        create: items.map((item: any) => ({
           name: item.name,
           type: item.type,
           unit: item.unit,

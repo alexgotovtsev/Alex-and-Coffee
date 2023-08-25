@@ -9,14 +9,11 @@ export default async function handler(
   if (req.method === 'GET') {
     try {
       const { type } = req.query;
-      console.log(type);
 
       if (type !== 'undefined') {
-        console.log('✅');
-
         const product = await prisma.menu.findMany({
           where: {
-            type: type,
+            type: type as string,
           },
         });
 
@@ -26,7 +23,6 @@ export default async function handler(
 
         res.status(200).json(product);
       } else {
-        console.log('💥');
         const allProduct = await prisma.menu.findMany({});
         res.status(200).json(allProduct);
       }

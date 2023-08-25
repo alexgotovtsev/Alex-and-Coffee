@@ -1,11 +1,11 @@
 'use client';
 
 import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
-import Image from 'next/image';
 import { useCartStore } from '@/store';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import basket from '@/public/basket.png';
-import { motion, AnimatePresence } from 'framer-motion';
 import Success from './Success';
 
 export default function Cart() {
@@ -24,7 +24,6 @@ export default function Cart() {
       body: JSON.stringify({
         items: cartStore.cart,
         status: 'success',
-        // payment_intent_id: cartStore.paymentIntent,
       }),
     });
     const data = response.json();
@@ -41,7 +40,6 @@ export default function Cart() {
       body: JSON.stringify({
         items: cartStore.cart,
         status: 'lost',
-        // payment_intent_id: cartStore.paymentIntent,
       }),
     });
     const data = response.json();
