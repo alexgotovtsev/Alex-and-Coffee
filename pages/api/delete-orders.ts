@@ -1,12 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/util/prisma';
 
 export default function DeleteOrders(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient();
-
   async function deleteAllOrders() {
     try {
       const deleteResult = await prisma.order.deleteMany();

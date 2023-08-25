@@ -1,8 +1,6 @@
 import { AddCartType } from '@/types/AddCartType';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/util/prisma';
 
 const calculateOrderAmount = (items: AddCartType[]) => {
   const totalPrice = items.reduce((acc, item) => {
