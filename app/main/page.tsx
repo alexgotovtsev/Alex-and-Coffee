@@ -7,8 +7,8 @@ import { getServerSession } from 'next-auth/next';
 export default async function Main({ searchParams }: { searchParams: any }) {
   const { type } = searchParams;
 
-  const session = await getServerSession(authOptions);
-  console.log(session);
+  // const session = await getServerSession(authOptions);
+  // console.log(session);
 
   const res = await fetch(`http://localhost:3000/api/products?type=${type}`);
   const products = await res.json();

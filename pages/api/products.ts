@@ -9,7 +9,10 @@ export default async function handler(
     try {
       const { type } = req.query;
 
-      if (type !== 'undefined') {
+      if (type === 'undefined') {
+        const allProduct = await prisma.menu.findMany({});
+        res.status(200).json(allProduct);
+      } else {
         const product = await prisma.menu.findMany({
           where: {
             type: type as string,
@@ -21,9 +24,6 @@ export default async function handler(
         }
 
         res.status(200).json(product);
-      } else {
-        const allProduct = await prisma.menu.findMany({});
-        res.status(200).json(allProduct);
       }
     } catch (err) {
       console.error('Неудалось получить продукты:', err);
