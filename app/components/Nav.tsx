@@ -2,39 +2,16 @@
 
 import { AiFillShopping } from 'react-icons/ai';
 import { useCartStore } from '@/store';
+import { motion, AnimatePresence } from 'framer-motion';
 import Cart from './Cart';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { signOut } from 'next-auth/react';
 
 export default function Nav() {
   const cartStore = useCartStore();
-  const session = useSession();
 
   return (
     <nav className="flex justify-between items-center p-6 text-gray-600">
       <div className="flex gap-8">
-        {session?.data && (
-          <Link
-            href={'#'}
-            onClick={() =>
-              signOut({
-                callbackUrl: '/',
-              })
-            }
-          >
-            <Image
-              className="rounded-full opacity-75"
-              src={session?.data?.user?.image as string}
-              width={50}
-              height={50}
-              alt="avatar"
-              priority
-            />
-          </Link>
-        )}
         <Link href={'/'}>
           <button className="text-3xl font-bold">Alex & Coffee</button>
         </Link>
