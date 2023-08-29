@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '@/util/prisma';
+// import { prisma } from '@/util/prisma';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export default function DeleteOrders(
   req: NextApiRequest,
@@ -13,7 +15,7 @@ export default function DeleteOrders(
       res.status(200).send(`Error deleting order: ${error}`);
       console.error();
     } finally {
-      await prisma.$disconnect();
+      // await prisma.$disconnect();
     }
   }
   deleteAllOrders();

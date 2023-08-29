@@ -1,8 +1,9 @@
 import Product from '../components/Product';
 import Nav from '../components/Nav';
 import Categories from '../components/Categories';
+import { SearchParamTypes } from '@/types/SearchParamTypes';
 
-export default async function Main({ searchParams }: { searchParams: any }) {
+export default async function Main({ searchParams }: SearchParamTypes) {
   const { type } = searchParams;
 
   const res = await fetch(`http://localhost:3000/api/products?type=${type}`);
