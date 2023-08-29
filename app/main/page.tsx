@@ -7,7 +7,7 @@ export default async function Main({ searchParams }: SearchParamTypes) {
   const { type } = searchParams;
 
   const res = await fetch(
-    `alex-and-coffee.vercel.app/api/products?type=${type}`
+    `https://alex-and-coffee.vercel.app/api/products?type=${type}`
   );
   const products = await res.json();
 
